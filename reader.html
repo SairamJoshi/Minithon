@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inoreader – Your Newsfeed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="reader.css" />
+</head>
+<body>
+
+<!-- ── App Shell ── -->
+<div class="app-shell" id="app-shell">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar" id="sidebar">
+    <!-- Logo -->
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="23" fill="#1875F3"/>
+            <circle cx="30" cy="18" r="7" fill="white"/>
+          </svg>
+        </div>
+        <span>inoreader</span>
+      </a>
+      <button class="sidebar-collapse-btn" id="sidebar-collapse" aria-label="Collapse sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+    </div>
+
+    <!-- Search -->
+    <div class="sidebar-search">
+      <div class="sidebar-search-inner">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="sidebar-search-input" placeholder="Search feeds…" autocomplete="off" />
+      </div>
+    </div>
+
+    <!-- Nav: Smart views -->
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Smart Views</div>
+      <ul class="sidebar-nav-list" id="smart-nav">
+        <li>
+          <button class="sidebar-nav-item active" data-view="all" id="nav-all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+            <span>All Items</span>
+            <span class="nav-badge" id="badge-all">0</span>
+          </button>
+        </li>
+        <li>
+          <button class="sidebar-nav-item" data-view="unread" id="nav-unread">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Unread</span>
+            <span class="nav-badge" id="badge-unread">0</span>
+          </button>
+        </li>
+        <li>
+          <button class="sidebar-nav-item" data-view="starred" id="nav-starred">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span>Starred</span>
+            <span class="nav-badge" id="badge-starred">0</span>
+          </button>
+        </li>
+        <li>
+          <button class="sidebar-nav-item" data-view="read-later" id="nav-read-later">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+            <span>Read Later</span>
+            <span class="nav-badge" id="badge-read-later">0</span>
+          </button>
+        </li>
+      </ul>
+
+      <!-- Subscriptions -->
+      <div class="sidebar-section-label" style="margin-top:16px;">
+        Subscriptions
+        <button class="add-feed-btn" id="add-feed-btn" title="Add new subscription">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+      <ul class="sidebar-nav-list" id="feeds-nav"></ul>
+    </nav>
+
+    <!-- User profile -->
+    <div class="sidebar-user" id="sidebar-user">
+      <div class="user-avatar" id="user-avatar">U</div>
+      <div class="user-info">
+        <span class="user-name" id="user-name">User</span>
+        <span class="user-plan" id="user-plan">Free</span>
+      </div>
+      <button class="user-menu-btn" id="user-menu-btn" aria-label="User menu">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      </button>
+      <!-- Dropdown -->
+      <div class="user-dropdown" id="user-dropdown">
+        <a href="signup.html" class="user-dropdown-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          My Account
+        </a>
+        <a href="#" class="user-dropdown-item" id="preferences-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          Preferences
+        </a>
+        <div class="user-dropdown-divider"></div>
+        <button class="user-dropdown-item" id="theme-toggle-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          Toggle Dark Mode
+        </button>
+        <div class="user-dropdown-divider"></div>
+        <button class="user-dropdown-item danger" id="logout-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══ ARTICLE LIST PANEL ═══ -->
+  <section class="article-list-panel" id="article-list-panel">
+    <!-- Panel header -->
+    <div class="panel-header">
+      <div class="panel-header-left">
+        <button class="mobile-sidebar-btn" id="mobile-sidebar-btn" aria-label="Open sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <h2 class="panel-title" id="panel-title">All Items</h2>
+        <span class="panel-count" id="panel-count">0 articles</span>
+      </div>
+      <div class="panel-header-right">
+        <button class="panel-action-btn" id="mark-all-read-btn" title="Mark all as read">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/><polyline points="20 6 9 17 17 6"/></svg>
+        </button>
+        <button class="panel-action-btn" id="refresh-btn" title="Refresh">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        </button>
+        <!-- View toggles -->
+        <div class="view-toggle-group">
+          <button class="view-toggle-btn active" id="view-list" title="List view" data-view-mode="list">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </button>
+          <button class="view-toggle-btn" id="view-card" title="Card view" data-view-mode="card">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </button>
+          <button class="view-toggle-btn" id="view-magazine" title="Magazine view" data-view-mode="magazine">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </button>
+        </div>
+        <!-- Filter -->
+        <select class="filter-select" id="sort-select">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="unread">Unread only</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Search bar (full panel) -->
+    <div class="panel-search-bar" id="panel-search-bar" style="display:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="panel-search-input" placeholder="Search in articles…" autocomplete="off" />
+      <button id="close-panel-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Articles container -->
+    <div class="articles-container" id="articles-container">
+      <!-- Articles rendered by JS -->
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="empty-state" style="display:none;">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--gray-300)"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <h3>No articles here</h3>
+      <p id="empty-state-msg">Subscribe to some feeds to get started</p>
+    </div>
+  </section>
+
+  <!-- ═══ ARTICLE READER PANEL ═══ -->
+  <main class="article-reader-panel" id="article-reader-panel">
+    <!-- Placeholder -->
+    <div class="reader-placeholder" id="reader-placeholder">
+      <div class="placeholder-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--gray-300)"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      </div>
+      <h3>Select an article to read</h3>
+      <p>Click any article on the left to open it here</p>
+      <div class="placeholder-tips">
+        <div class="tip"><kbd>J</kbd> Next article</div>
+        <div class="tip"><kbd>K</kbd> Previous article</div>
+        <div class="tip"><kbd>S</kbd> Star article</div>
+        <div class="tip"><kbd>B</kbd> Save for later</div>
+      </div>
+    </div>
+
+    <!-- Article content (hidden until selected) -->
+    <div class="reader-content" id="reader-content" style="display:none;">
+      <!-- Reader toolbar -->
+      <div class="reader-toolbar">
+        <div class="reader-toolbar-left">
+          <button class="reader-back-btn" id="reader-back-btn" title="Back to list">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="reader-feed-tag" id="reader-feed-tag"></div>
+        </div>
+        <div class="reader-toolbar-right">
+          <button class="reader-tool-btn" id="reader-star-btn" title="Star (S)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </button>
+          <button class="reader-tool-btn" id="reader-save-btn" title="Save for later (B)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          </button>
+          <button class="reader-tool-btn" id="reader-share-btn" title="Share">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
+          <button class="reader-tool-btn" id="reader-external-btn" title="Open original">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </button>
+          <div class="font-size-ctrl">
+            <button class="reader-tool-btn" id="font-decrease">A-</button>
+            <button class="reader-tool-btn" id="font-increase">A+</button>
+          </div>
+          <button class="reader-tool-btn prev-next-btn" id="prev-article-btn" title="Previous (K)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="reader-tool-btn prev-next-btn" id="next-article-btn" title="Next (J)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Article body -->
+      <div class="reader-body" id="reader-body">
+        <div class="reader-article-head">
+          <div class="reader-meta-top">
+            <span class="reader-source" id="reader-source"></span>
+            <span class="reader-dot">·</span>
+            <span class="reader-date" id="reader-date"></span>
+            <span class="reader-dot">·</span>
+            <span class="reader-read-time" id="reader-read-time"></span>
+          </div>
+          <h1 class="reader-title" id="reader-title"></h1>
+          <div class="reader-tags" id="reader-tags"></div>
+        </div>
+        <div class="reader-hero-img-wrap" id="reader-hero-img-wrap"></div>
+        <div class="reader-article-content" id="reader-article-content"></div>
+
+        <!-- AI Summary card -->
+        <div class="ai-summary-card" id="ai-summary-card">
+          <div class="ai-summary-header">
+            <div class="ai-summary-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <span>Inoreader Intelligence</span>
+            <button class="ai-summary-close" id="ai-summary-close">✕</button>
+          </div>
+          <div class="ai-summary-body" id="ai-summary-body"></div>
+        </div>
+        <button class="ai-summarize-btn" id="ai-summarize-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Summarize with AI
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ═══ ADD FEED MODAL ═══ -->
+<div class="modal-overlay" id="add-feed-modal">
+  <div class="modal-box">
+    <div class="modal-box-header">
+      <h3>Add Subscription</h3>
+      <button class="modal-box-close" id="close-add-feed">✕</button>
+    </div>
+    <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:20px;">Enter a website URL, RSS feed, or search by keyword</p>
+
+    <div class="add-feed-input-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="add-feed-input" placeholder="e.g. https://techcrunch.com or 'AI news'" autocomplete="off" />
+    </div>
+
+    <div class="suggested-feeds" id="suggested-feeds">
+      <div class="suggested-label">Popular feeds</div>
+      <div class="suggested-list" id="suggested-list"></div>
+    </div>
+
+    <div class="modal-box-footer">
+      <button class="modal-cancel-btn" id="cancel-add-feed">Cancel</button>
+      <button class="modal-confirm-btn" id="confirm-add-feed">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Subscribe
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PREFERENCES MODAL ═══ -->
+<div class="modal-overlay" id="preferences-modal">
+  <div class="modal-box" style="max-width:480px;">
+    <div class="modal-box-header">
+      <h3>Preferences</h3>
+      <button class="modal-box-close" id="close-preferences">✕</button>
+    </div>
+    <div class="pref-section">
+      <h4>Display</h4>
+      <div class="pref-row">
+        <div>
+          <strong>Dark mode</strong>
+          <span>Switch to dark theme</span>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="pref-dark-mode" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="pref-row">
+        <div>
+          <strong>Compact list view</strong>
+          <span>Show more articles at once</span>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="pref-compact" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="pref-row">
+        <div>
+          <strong>Mark as read on scroll</strong>
+          <span>Auto-mark articles when scrolled past</span>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="pref-auto-read" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="pref-section">
+      <h4>Reading Font</h4>
+      <div class="font-picker">
+        <label class="font-opt"><input type="radio" name="font" value="inter" checked/> <span style="font-family:Inter">Inter (Sans-serif)</span></label>
+        <label class="font-opt"><input type="radio" name="font" value="merriweather" /> <span style="font-family:Merriweather">Merriweather (Serif)</span></label>
+      </div>
+    </div>
+    <div class="modal-box-footer" style="margin-top:24px;">
+      <button class="modal-cancel-btn" id="close-preferences-btn">Close</button>
+      <button class="modal-confirm-btn" id="save-preferences-btn">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div class="toast-container" id="toast-container"></div>
+
+<script src="reader.js"></script>
+</body>
+</html>
