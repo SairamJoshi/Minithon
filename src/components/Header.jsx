@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Zap, Settings, BarChart3 } from 'lucide-react'
+import { Zap, Settings, BarChart3, Newspaper } from 'lucide-react'
 
 export default function Header() {
   const location = useLocation()
@@ -49,8 +49,21 @@ export default function Header() {
                     ? 'bg-accent-primary/15 text-accent-primary'
                     : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover'
                 }`}
+                title="EKAI Dashboard"
               >
                 <BarChart3 className="w-5 h-5" />
+              </Link>
+              <Link
+                to="/reader"
+                className={`p-2.5 rounded-xl transition-all duration-200 flex items-center gap-1.5 px-3 ${
+                  location.pathname.startsWith('/reader') || location.pathname === '/inoreader'
+                    ? 'bg-accent-primary/15 text-accent-primary'
+                    : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover'
+                }`}
+                title="Newsfeed Reader"
+              >
+                <Newspaper className="w-5 h-5" />
+                <span className="text-xs font-semibold hidden md:inline">Reader</span>
               </Link>
               <Link
                 to="/settings"
@@ -59,6 +72,7 @@ export default function Header() {
                     ? 'bg-accent-primary/15 text-accent-primary'
                     : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover'
                 }`}
+                title="Settings"
               >
                 <Settings className="w-5 h-5" />
               </Link>
