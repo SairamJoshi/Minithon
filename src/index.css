@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+/* ============================================
+   EKAI — Design System
+   Premium dark glassmorphism theme
+   ============================================ */
+
+@theme {
+  --color-bg-primary: #06060f;
+  --color-bg-secondary: #0c0c1d;
+  --color-bg-card: rgba(15, 15, 35, 0.7);
+  --color-bg-glass: rgba(20, 20, 50, 0.4);
+  --color-bg-hover: rgba(30, 30, 70, 0.5);
+
+  --color-border-subtle: rgba(100, 100, 200, 0.12);
+  --color-border-accent: rgba(120, 100, 255, 0.3);
+
+  --color-text-primary: #e8e8f0;
+  --color-text-secondary: #8888aa;
+  --color-text-muted: #555577;
+
+  --color-accent-primary: #7c5cfc;
+  --color-accent-secondary: #5c9cfc;
+  --color-accent-glow: rgba(124, 92, 252, 0.25);
+
+  --color-score-relevance: #7c5cfc;
+  --color-score-novelty: #5cf0a8;
+  --color-score-credibility: #5cacfc;
+  --color-score-urgency: #fc5c7c;
+  --color-score-velocity: #fcac5c;
+  --color-score-independence: #c45cfc;
+
+  --color-claim-agreed: #34d399;
+  --color-claim-disputed: #fbbf24;
+  --color-claim-single: #6b7280;
+
+  --color-tier-urgent: #ef4444;
+  --color-tier-important: #f59e0b;
+  --color-tier-info: #3b82f6;
+  --color-tier-low: #6b7280;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 100, 200, 0.2) transparent;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animated gradient background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(124, 92, 252, 0.08), transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(92, 156, 252, 0.06), transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(196, 92, 252, 0.04), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+.glass {
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.glass-card {
+  background: var(--color-bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: var(--color-border-accent);
+  box-shadow: 0 8px 40px rgba(124, 92, 252, 0.08), 0 0 0 1px var(--color-border-accent);
+  transform: translateY(-2px);
+}
+
+.glow-text {
+  background: linear-gradient(135deg, #7c5cfc, #5c9cfc, #c45cfc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-border {
+  position: relative;
+}
+
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(124, 92, 252, 0.5), rgba(92, 156, 252, 0.5), rgba(196, 92, 252, 0.5));
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  padding: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-border:hover::after {
+  opacity: 1;
+}
+
+/* Score bar animation */
+.score-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(100, 100, 200, 0.1);
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Pulse animation for live indicator */
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.pulse-live {
+  animation: pulse-live 2s ease-in-out infinite;
+}
+
+/* Shimmer loading */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, 
+    rgba(100, 100, 200, 0.05) 25%, 
+    rgba(100, 100, 200, 0.12) 50%, 
+    rgba(100, 100, 200, 0.05) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Fade in animation */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
